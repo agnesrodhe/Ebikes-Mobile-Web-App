@@ -1,0 +1,81 @@
+.green-container {
+    background: linear-gradient(#8fbd52, #008037);
+    height: 100vh;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.logo {
+    width: 200px;
+    margin-inline: auto;
+}
+
+.start-img {
+    width: 400px;
+    margin-inline: auto;
+}
+
+.new-user-created {
+    height: 20px;
+}
+
+.start-placeholder {
+    height: 20px;
+}
+
+.start-buttons {
+    display: flex;
+    flex-direction: column;
+    margin-inline: auto;
+}
+
+.login-field {
+    display: flex;
+    flex-direction: column;
+    margin-inline: auto;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    padding: 25px;
+    border-radius: 10px;
+    width: 350px;
+}
+
+.back-button {
+    width: 70px;
+    height: 28px;
+    background-color: #d7efe1;
+    border-radius: 10px;
+    border: none;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.login-field h2 {
+    color: #d7efe1;
+    margin-top: 20px;
+}
+
+.login-field input {
+    border-radius: 5px;
+    border: none;
+    margin-block: 15px;
+    padding: 10px;
+    background-color: #d7efe1;
+}
+
+.spinner-container {
+    margin-inline: auto;
+}
+
+.login-button {
+    width: 150px;
+    height: 48px;
+    margin-inline: auto;
+    margin-top:20px;
+    padding-top: 10px;
+    padding-bottom: 12px;
+    background-color: #d7efe1;
+    border-radius: 10px;
+    border: none;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
