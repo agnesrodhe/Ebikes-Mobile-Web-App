@@ -1,10 +1,8 @@
-FROM node:14.13.1-buster-slim
+FROM debian:stretch-slim
 
-COPY . /home
-WORKDIR /home
+RUN apt update && \
+    apt install -y apache2 curl
 
-RUN npm install
+COPY build /var/www/html
 
-EXPOSE 3000
-
-ENTRYPOINT ["npm", "start"]
+CMD apachectl -D FOREGROUND
