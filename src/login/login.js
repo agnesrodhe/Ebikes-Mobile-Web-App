@@ -11,7 +11,7 @@ function Login({ setDisplay, setIsLoggedIn }) {
     const handleEmailChange = event => {
         setEmail(event.target.value);
     };
-    
+
     // Set password.
     const handlePasswordChange = event => {
         setPassword(event.target.value);
@@ -21,35 +21,44 @@ function Login({ setDisplay, setIsLoggedIn }) {
         setLoading(true);
         setTimeout(() => {
             setIsLoggedIn(true);
-        }, 1500)
+        }, 1500);
         localStorage.setItem("loggedIn", true);
     }
 
-return (
-    <div className="login-field">
+    return (
+        <div className="login-field">
+            <button className="back-button" onClick={() => setDisplay("start")}>
+                <p>Tillbaka</p>
+            </button>
 
-        <button className="back-button" onClick={() => setDisplay("start")}>
-          <p>Tillbaka</p>
-        </button>
+            <h2>Logga in</h2>
 
-        <h2>Logga in</h2>
+            <input
+                type="text"
+                placeholder="E-MAIL"
+                value={email}
+                onChange={handleEmailChange}
+                required /><br></br>
 
-        <input type="text" placeholder="E-MAIL" value={email} onChange={handleEmailChange} required></input><br></br>
-        <input type="password" placeholder="LÖSENORD" value={password} onChange={handlePasswordChange} required></input>
+            <input
+                type="password"
+                placeholder="LÖSENORD"
+                value={password}
+                onChange={handlePasswordChange}
+                required />
 
-        {loading &&
-            <div className="spinner-container">
-                <div className="loading-spinner"></div>
-            </div>
-        }
+            {loading &&
+                <div className="spinner-container">
+                    <div className="loading-spinner"></div>
+                </div>
+            }
 
-        <button className="login-button" onClick={() => logIn()}>
-          <h4>Logga in</h4>
-        </button>
+            <button className="login-button" onClick={() => logIn()}>
+                <h4>Logga in</h4>
+            </button>
+        </div>
 
-    </div>
-
-  )
-};
+    );
+}
 
 export default Login;

@@ -6,10 +6,10 @@ import '../../../style/buttons.css';
 import { GoogleMap, useLoadScript, MarkerF, InfoWindowF } from '@react-google-maps/api';
 
 const containerStyle = {
-  width: '100%',
-  height: '760px',
-  position: 'absolute',
-  bottom: 56
+    width: '100%',
+    height: '760px',
+    position: 'absolute',
+    bottom: 56
 };
 
 const libraries = ["places"];
@@ -31,20 +31,25 @@ function Map({ coordinates, setTab }) {
     useEffect(() => {
         (async () => {
             const allbikes = await bikesModel.getAllBikes();
+
             setbikes(allbikes);
         })();
-    }, [])
+    }, []);
 
-    if (loadError) return "Error loading maps";
-    if (!isLoaded) return "Loading maps";
+    if (loadError) {
+        return "Error loading maps";
+    }
+
+    if (!isLoaded) {
+        return "Loading maps";
+    }
 
     function StartTrip() {
         setTab(1);
     }
 
-return (
-    <div>
-
+    return (
+        <div>
             <GoogleMap
                 mapContainerStyle={containerStyle}
                 center={startCoordinates}
@@ -52,40 +57,41 @@ return (
                 options={defaultMapOptions}
             >
                 <>
-                {bikes && 
+                    {bikes &&
                     <>
-                    {bikes.map((bike, index) => {
-                        return <MarkerF 
-                                    key={index} 
-                                    position={{
-                                        lat: bike.location.coordinates[1],
-                                        lng: bike.location.coordinates[0]
-                                    }}
-                                    onClick={() => {setSelectedBike(bike)}}
-                                />
-                    })}
+                        {bikes.map((bike, index) => {
+                            return <MarkerF
+                                key={index}
+                                position={{
+                                    lat: bike.location.coordinates[1],
+                                    lng: bike.location.coordinates[0]
+                                }}
+                                onClick={() => {setSelectedBike(bike);}}
+                            />;
+                        })}
                     </>
-                }
+                    }
 
-                {selectedBike ? <>
-                    <InfoWindowF
-                        position={{
-                            lat: selectedBike.location.coordinates[1],
-                            lng: selectedBike.location.coordinates[0]
-                        }}
-                        onCloseClick={() => {setSelectedBike(null)}}
-                    ><>
-                        <p>{selectedBike.name}</p>
-                        <p>Batterinivå: {selectedBike.batterylevel}%</p>
-                        <button onClick={() => {StartTrip()}}>Lås upp</button>
-                     </>
-                    </InfoWindowF>
-                </> : null}
+                    {selectedBike ? <>
+                        <InfoWindowF
+                            position={{
+                                lat: selectedBike.location.coordinates[1],
+                                lng: selectedBike.location.coordinates[0]
+                            }}
+                            onCloseClick={() => {setSelectedBike(null);}}
+                        >
+                            <>
+                                <p>{selectedBike.name}</p>
+                                <p>Batterinivå: {selectedBike.batterylevel}%</p>
+                                <button onClick={() => {StartTrip();}}>Lås upp</button>
+                            </>
+                        </InfoWindowF>
+                    </> : null}
                 </>
             </GoogleMap>
 
-    </div>
-  )
-};
+        </div>
+    );
+}
 
 export default Map;
