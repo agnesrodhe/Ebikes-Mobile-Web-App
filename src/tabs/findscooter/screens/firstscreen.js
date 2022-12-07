@@ -1,11 +1,21 @@
 import React from 'react';
+import citiesModel from '../../../models/cities';
 import Logo from '../../../assets/logo.png';
+import StartImg from '../../../assets/start_img.png';
 import '../../../style/findscootertab.css';
 import '../../../style/buttons.css';
 
-function FirstScreen({ setScreen, setCity, setCoordinates }) {
-    function goToMap(city, coordinates) {
-        setCity(city);
+function FirstScreen({ user, setScreen, setCity, setCoordinates }) {
+    async function goToMap(city, coordinates) {
+        const allCities = await citiesModel.getAllCities();
+
+        const choosenCity = allCities.filter((oneCity) => {
+            if (oneCity.name === city) {
+                return oneCity;
+            }
+        });
+
+        setCity(choosenCity[0]);
         setCoordinates(coordinates);
         setScreen("map");
     }
@@ -14,10 +24,10 @@ function FirstScreen({ setScreen, setCity, setCoordinates }) {
         <div className='findscooter-container'>
             <img src={Logo} alt="logo" className="logo-findscooter-index" />
 
-            <h1>Välkommen Förnamn!</h1>
+            <h1>Välkommen {user.firstName || user.username}!</h1>
 
             <div className='findscooter-index-buttons-container'>
-                <p>Välj stad för att hitta en elscooter:</p>
+                <h4>Välj stad:</h4>
 
                 <button onClick={() => {
                     goToMap(
@@ -30,11 +40,11 @@ function FirstScreen({ setScreen, setCity, setCoordinates }) {
 
                 <button onClick={() => {
                     goToMap(
-                        "Västerås",
-                        {lat: 59.611060, lng: 16.544369}
+                        "Borlänge",
+                        {lat: 60.485552, lng: 15.411948}
                     );
                 }} className='main-button'>
-                    <h4>Västerås</h4>
+                    <h4>Borlänge</h4>
                 </button>
 
                 <button onClick={() => {
@@ -47,7 +57,7 @@ function FirstScreen({ setScreen, setCity, setCoordinates }) {
                 </button>
             </div>
 
-            <div className='findscooter-index-placeholder'></div>
+            <img src={StartImg} alt="illustration" className="findscooter-img" />
         </div>
     );
 }
