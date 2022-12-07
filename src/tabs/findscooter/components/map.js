@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import bikesModel from '../../../models/bikes.js';
 import citiesModel from '../../../models/cities.js';
 import BikeMarkers from './bikemarkers.js';
-import ParkingMarkers from './parkingMarkers.js';
+import ParkZoneMarkers from './parkzonemarkers.js';
 import InfoWindow from './infowindow.js';
 import '../../../style/findscootertab.css';
 import '../../../style/buttons.css';
@@ -121,7 +121,7 @@ function Map({ coordinates, user, setTab, city }) {
 
                     {bikes && <BikeMarkers bikes={bikes} setSelectedBike={setSelectedBike} />}
 
-                    {parkingZones && <ParkingMarkers parkingZones={parkingZones} />}
+                    {parkingZones && <ParkZoneMarkers parkingZones={parkingZones} />}
 
                     {selectedBike ? <InfoWindow
                         user={user}
