@@ -10,6 +10,11 @@
 .findscooter-index-buttons-container {
     display: flex;
     flex-direction: column;
+    width: 300px;
+    margin-inline: auto;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    padding: 25px;
+    border-radius: 10px;
 }
 
 .findscooter-index-placeholder {
@@ -19,6 +24,12 @@
 .logo-findscooter-index {
     width: 200px;
     margin-top: 50px;
+    margin-inline: auto;
+}
+
+.findscooter-img {
+    margin-bottom: 50px;
+    width: 300px;
     margin-inline: auto;
 }
 
@@ -43,10 +54,18 @@
 }
 
 .header-flex * {
-    width: 100px
+    width: 130px;
+    height: 42px;
 }
 
-.map-container {
+.map-container-findscooter {
     width: 100%;
-    height: 800px;
+    height: 90%;
 }
+
+@media (min-width: 550px) {
+    .header-flex h1 {
+        width: 250px!important;
+    }
+  }
+  
