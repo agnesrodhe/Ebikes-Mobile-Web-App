@@ -11,6 +11,11 @@
 # production
 /build
 
+#bash
+build_prod.bash
+build_docker.bash
+push_docker.bash
+
 # misc
 .DS_Store
 .env

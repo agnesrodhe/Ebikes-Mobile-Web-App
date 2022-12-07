@@ -1,28 +1,48 @@
 import React, { useState } from 'react';
+import authModel from '../models/auth';
+import userModel from '../models/user';
+import '../style/general.css';
 import '../style/login.css';
 import "../style/loading.css";
 
-function Login({ setDisplay, setIsLoggedIn }) {
-    const [email, setEmail] = useState("");
+function Login({ setDisplay, setUser }) {
+    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
 
-    // Set email.
-    const handleEmailChange = event => {
-        setEmail(event.target.value);
-    };
+    async function logIn() {
+        if (!username || !password) {
+            setErrorMessage("Fyll i alla fält!");
+            return;
+        }
 
-    // Set password.
-    const handlePasswordChange = event => {
-        setPassword(event.target.value);
-    };
-
-    function logIn() {
         setLoading(true);
+
+        const user = {
+            "username": username,
+            "password": password
+        };
+
+        const login = await authModel.signIn(user);
+
+        console.log(login);
+
+        if (login.error === "No customer found") {
+            setTimeout(() => {
+                setLoading(false);
+                setErrorMessage("Fel användarnamn eller lösenord");
+            }, 1000);
+            return;
+        }
+
+        const fullUser = await userModel.getUser(login._id);
+
         setTimeout(() => {
-            setIsLoggedIn(true);
-        }, 1500);
-        localStorage.setItem("loggedIn", true);
+            setUser(fullUser);
+        }, 1000);
+
+        console.log(fullUser);
     }
 
     return (
@@ -33,18 +53,22 @@ function Login({ setDisplay, setIsLoggedIn }) {
 
             <h2>Logga in</h2>
 
+            {errorMessage &&
+                <p style={{color: "red"}}>{errorMessage}</p>
+            }
+
+            <div>Användarnamn</div>
             <input
                 type="text"
-                placeholder="E-MAIL"
-                value={email}
-                onChange={handleEmailChange}
+                value={username}
+                onChange={(event) => setUsername(event.target.value)}
                 required /><br></br>
 
+            <div>Lösenord</div>
             <input
                 type="password"
-                placeholder="LÖSENORD"
                 value={password}
-                onChange={handlePasswordChange}
+                onChange={(event) => setPassword(event.target.value)}
                 required />
 
             {loading &&

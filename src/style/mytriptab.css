@@ -5,4 +5,57 @@
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
+    gap: 0;
+    padding-bottom: 18px;
+}
+
+.logo {
+    width: 100px;
+    margin-inline: auto;
+}
+
+.logo-smaller {
+    width: 86px;
+    margin-inline: auto;
+}
+
+.trip-container {
+    width: 300px;
+    margin-inline: auto;
+    text-align: left;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    padding: 25px;
+    border-radius: 10px;
+    background-color: #d7efe1;
+}
+
+.trip-container p {
+    font-size: 20px;
+    margin: 0;
+}
+
+.red-button {
+    background-color: #d80e00;
+    color: #d7efe1;
+}
+
+.map-container {
+    width: 95%;
+    height: 400px;
+    margin-inline: auto;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.header-flex {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 20px 20px 0 20px;
+}
+
+.header-flex * {
+    width: 300px;
+    height: 42px;
 }

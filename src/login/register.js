@@ -1,31 +1,48 @@
 import React, { useState } from 'react';
+import authModel from '../models/auth';
+import '../style/general.css';
 import '../style/login.css';
 import "../style/loading.css";
 
 function Register({ setDisplay, setNewUserCreated }) {
-    const [email, setEmail] = useState("");
+    const [username, setUsername] = useState("");
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
 
-    // Set email.
-    const handleEmailChange = event => {
-        setEmail(event.target.value);
-    };
+    async function Register() {
+        if (!username || !password || !firstName || !lastName) {
+            setErrorMessage("Fyll i alla fält!");
+            return;
+        }
 
-    // Set password.
-    const handlePasswordChange = event => {
-        setPassword(event.target.value);
-    };
-
-    function Register() {
         setLoading(true);
+
+        const newUser = {
+            "username": username,
+            "password": password,
+            "firstName": firstName,
+            "lastName": lastName
+        };
+
+        const createUser = await authModel.signUp(newUser);
+
+        if (createUser.error) {
+            setErrorMessage("Något fick fel...");
+            setLoading(false);
+            return;
+        }
+
         setTimeout(() => {
             setNewUserCreated(true);
             setDisplay("start");
             setTimeout(() => {
                 setNewUserCreated(false);
-            }, 2000);
-        }, 1500);
+            }, 10000);
+            setLoading(false);
+        }, 1000);
     }
 
     return (
@@ -37,18 +54,36 @@ function Register({ setDisplay, setNewUserCreated }) {
 
             <h2>Skapa användare</h2>
 
+            {errorMessage &&
+                <p style={{color: "red"}}>{errorMessage}</p>
+            }
+
+            <div>Förnamn</div>
             <input
                 type="text"
-                placeholder="E-MAIL"
-                value={email}
-                onChange={handleEmailChange}
+                value={firstName}
+                onChange={(event) => {setFirstName(event.target.value);}}
                 required /><br></br>
 
+            <div>Efternamn</div>
+            <input
+                type="text"
+                value={lastName}
+                onChange={(event) => {setLastName(event.target.value);}}
+                required /><br></br>
+
+            <div>Användarnamn</div>
+            <input
+                type="text"
+                value={username}
+                onChange={(event) => {setUsername(event.target.value);}}
+                required /><br></br>
+
+            <div>Lösenord</div>
             <input
                 type="password"
-                placeholder="LÖSENORD"
                 value={password}
-                onChange={handlePasswordChange}
+                onChange={(event) => {setPassword(event.target.value);}}
                 required />
 
             {loading &&

@@ -1,38 +1,65 @@
 import React, { useEffect, useState } from 'react';
 import bikesModel from '../../../models/bikes.js';
+import citiesModel from '../../../models/cities.js';
+import BikeMarkers from './bikemarkers.js';
+import ParkZoneMarkers from './parkzonemarkers.js';
+import InfoWindow from './infowindow.js';
 import '../../../style/findscootertab.css';
 import '../../../style/buttons.css';
 
-import { GoogleMap, useLoadScript, MarkerF, InfoWindowF } from '@react-google-maps/api';
+import { GoogleMap, useLoadScript, PolygonF } from '@react-google-maps/api';
 
 const containerStyle = {
     width: '100%',
-    height: '760px',
+    height: '82%',
     position: 'absolute',
     bottom: 56
 };
 
 const libraries = ["places"];
 
-const defaultMapOptions = {
-    fullscreenControl: false,
-    streetViewControl: false,
-};
-
-function Map({ coordinates, setTab }) {
+function Map({ coordinates, user, setTab, city }) {
     const [startCoordinates] = useState(coordinates);
+    const [cityZone, setCityZone] = useState("");
     const [bikes, setbikes] = useState("");
+    const [parkingZones, setParkingZones] = useState("");
     const [selectedBike, setSelectedBike] = useState(null);
     const { isLoaded, loadError } = useLoadScript({
         googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
         libraries,
     });
+    const [zoomLevel, setZoomLevel] = useState(10);
 
     useEffect(() => {
         (async () => {
-            const allbikes = await bikesModel.getAllBikes();
+            // Get all inactive bikes in city
+            const allbikesInCurrentCity = await bikesModel.getAllBikesInCity(city._id);
+            const parkingZonesInCity = await citiesModel.getParkingZones(city._id);
 
-            setbikes(allbikes);
+            setbikes(allbikesInCurrentCity);
+            setParkingZones(parkingZonesInCity);
+
+            // Set zoom level
+            if (city.name === "Visby") {
+                setZoomLevel(12);
+            }
+            if (city.name === "Borlänge") {
+                setZoomLevel(12);
+            }
+            if (city.name === "Lund") {
+                setZoomLevel(11);
+            }
+
+            // Set city borders
+            let coordinatesArray = [];
+
+            city.location.coordinates[0].forEach((value) => {
+                coordinatesArray.push({
+                    lat: parseFloat(value[1]),
+                    lng: parseFloat(value[0])
+                });
+            });
+            setCityZone(coordinatesArray);
         })();
     }, []);
 
@@ -44,7 +71,24 @@ function Map({ coordinates, setTab }) {
         return "Loading maps";
     }
 
-    function StartTrip() {
+    async function StartTrip() {
+        const userId = localStorage.getItem('userId');
+
+        await bikesModel.updateBike(selectedBike._id, {active: userId});
+
+        const newTrip = {
+            bikeId: selectedBike._id,
+            startTime: new Date(),
+            startPosition: selectedBike.location.coordinates,
+            city: city,
+            cityZone: cityZone,
+            parkingZones: parkingZones
+        };
+
+        console.log(newTrip);
+
+        localStorage.setItem('trip', JSON.stringify(newTrip));
+
         setTab(1);
     }
 
@@ -53,40 +97,38 @@ function Map({ coordinates, setTab }) {
             <GoogleMap
                 mapContainerStyle={containerStyle}
                 center={startCoordinates}
-                zoom={12}
-                options={defaultMapOptions}
+                zoom={zoomLevel}
+                options={{
+                    fullscreenControl: false,
+                    streetViewControl: false,
+                }}
             >
                 <>
-                    {bikes &&
-                    <>
-                        {bikes.map((bike, index) => {
-                            return <MarkerF
-                                key={index}
-                                position={{
-                                    lat: bike.location.coordinates[1],
-                                    lng: bike.location.coordinates[0]
-                                }}
-                                onClick={() => {setSelectedBike(bike);}}
-                            />;
-                        })}
-                    </>
-                    }
+                    <PolygonF
+                        path={cityZone}
+                        options={{
+                            fillOpacity: 0,
+                            strokeColor: "black",
+                            strokeOpacity: 1,
+                            strokeWeight: 2,
+                            clickable: false,
+                            draggable: false,
+                            editable: false,
+                            geodesic: false,
+                            zIndex: 1
+                        }}
+                    />
 
-                    {selectedBike ? <>
-                        <InfoWindowF
-                            position={{
-                                lat: selectedBike.location.coordinates[1],
-                                lng: selectedBike.location.coordinates[0]
-                            }}
-                            onCloseClick={() => {setSelectedBike(null);}}
-                        >
-                            <>
-                                <p>{selectedBike.name}</p>
-                                <p>Batterinivå: {selectedBike.batterylevel}%</p>
-                                <button onClick={() => {StartTrip();}}>Lås upp</button>
-                            </>
-                        </InfoWindowF>
-                    </> : null}
+                    {bikes && <BikeMarkers bikes={bikes} setSelectedBike={setSelectedBike} />}
+
+                    {parkingZones && <ParkZoneMarkers parkingZones={parkingZones} />}
+
+                    {selectedBike ? <InfoWindow
+                        user={user}
+                        selectedBike={selectedBike}
+                        setSelectedBike={setSelectedBike}
+                        StartTrip={StartTrip}
+                    /> : null}
                 </>
             </GoogleMap>
 

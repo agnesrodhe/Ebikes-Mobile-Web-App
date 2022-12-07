@@ -14,3 +14,7 @@
     border-radius: 50%;
     animation: spinner 1s linear infinite;
   }
+
+.spinner-container-center {
+  margin-top: 400px;
+}

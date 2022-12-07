@@ -6,8 +6,8 @@ import Start from './start.js';
 import Login from './login.js';
 import Register from './register.js';
 
-function Index({ setIsLoggedIn }) {
-    const [display, setDisplay] = useState("start");
+function Index({ test, setUser }) {
+    const [display, setDisplay] = useState(test || "start");
     const [newUserCreated, setNewUserCreated] = useState(false);
 
     return (
@@ -27,7 +27,7 @@ function Index({ setIsLoggedIn }) {
             </div>
 
             {display === "login" &&
-                <Login setDisplay={setDisplay} setIsLoggedIn={setIsLoggedIn} />
+                <Login setDisplay={setDisplay} setUser={setUser} />
             }
 
             {display === "register" &&
