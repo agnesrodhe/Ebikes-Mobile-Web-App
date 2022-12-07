@@ -4,5 +4,165 @@
     text-align: center;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    gap: 30px;
+}
+
+.mypage-buttons-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.my-page-logo {
+    width: 200px;
+    margin-inline: auto;
+    position: relative;
+    bottom: 30px;
+}
+
+.info-container {
+    width: 350px;
+    margin-inline: auto;
+    text-align: left;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    padding: 25px;
+    border-radius: 10px;
+    background-color: #d7efe1;
+}
+
+.update-userinfo-container {
+    text-align: center;
+}
+
+.back-button {
+    margin: 15px 0 0 15px;
+}
+
+.history-title {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.info-container p {
+    font-size: 20px;
+    margin: 0;
+}
+
+.info-container button {
+    text-align: center;
+}
+
+.info-row {
+    display: flex;
+    flex-direction: row;
     justify-content: space-evenly;
+    width: 300px;
+}
+
+.info-row div {
+    text-align: left;
+}
+
+.info-container table {
+    width: 300px;
+}
+
+.info-container table tr th {
+    width: 150px;
+}
+
+.info-container table tr td {
+    text-align: right;
+}
+
+.page-container {
+    width: 400px;
+    max-height: 630px;
+    margin-inline: auto;
+    text-align: left;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border-radius: 10px;
+    background-color: #bfecd4;
+}
+
+.history-container {
+    width: 400px;
+    max-height: 500px;
+    margin-inline: auto;
+    padding: 25px;
+    overflow-y: scroll;
+}
+
+.page-container table {
+    width: 100%;
+}
+
+.one-trip {
+    width: 300px;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    padding: 5px;
+    background-color: #d7efe1;
+}
+
+.one-trip tr th {
+    padding-left: 5px;
+}
+
+.history-table {
+    margin-bottom: 15px;
+}
+
+.money-input-container {
+    width: 100%;
+    margin-inline: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.amount-button {
+    width: 70px;
+    height: 50px;
+    margin-top:20px;
+    padding-top: 7px;
+    background-color: #eefcf4;
+    border-radius: 10px;
+    border: none;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.selected-amount-button {
+    width: 70px;
+    height: 50px;
+    margin-top:20px;
+    padding-top: 7px;
+    background-color: rgb(216, 124, 3);
+    border: none;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.money-action-buttons-container {
+    width: 100%;
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.money-action-button {
+    width: 140px;
+    height: 50px;
+    margin-top:20px;
+    padding-top: 7px;
+    background-color: #d7efe1;
+    border-radius: 10px;
+    border: none;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.loading-spinner {
+    margin-inline: auto;
 }
