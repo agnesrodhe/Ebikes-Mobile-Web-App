@@ -10,6 +10,8 @@
 .logo {
     width: 200px;
     margin-inline: auto;
+    position: relative;
+    top: 20px;
 }
 
 .start-img {
@@ -29,6 +31,36 @@
     display: flex;
     flex-direction: column;
     margin-inline: auto;
+}
+
+.github-button {
+    width: 250px;
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-inline: auto;
+    margin-top:20px;
+    padding: 11px;
+    background-color: rgb(22, 27, 34);
+    border-radius: 10px;
+    border: none;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.github-button:hover {
+    color: black;
+}
+
+.github-button img {
+    width: 28px;
+    height: 28px;
+    margin: 0 5px 0 0;
+}
+
+.github-button p {
+    font-size: 19px;
+    color: rgb(201, 209, 217);
 }
 
 .login-field {
@@ -58,24 +90,17 @@
 .login-field input {
     border-radius: 5px;
     border: none;
-    margin-block: 15px;
+    margin-block: 5px;
+    margin-top: 0;
     padding: 10px;
     background-color: #d7efe1;
 }
 
-.spinner-container {
-    margin-inline: auto;
+.login-field div {
+    text-align: left;
+    font-size: 20px;
 }
 
-.login-button {
-    width: 150px;
-    height: 48px;
+.spinner-container {
     margin-inline: auto;
-    margin-top:20px;
-    padding-top: 10px;
-    padding-bottom: 12px;
-    background-color: #d7efe1;
-    border-radius: 10px;
-    border: none;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
