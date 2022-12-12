@@ -77,6 +77,7 @@ function Map({ coordinates, user, setTab, city }) {
         await bikesModel.updateBike(selectedBike._id, {active: userId});
 
         const newTrip = {
+            userId: userId,
             bikeId: selectedBike._id,
             startTime: new Date(),
             startPosition: selectedBike.location.coordinates,
