@@ -1,18 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import Logo from '../../assets/logo.png';
 import '../../style/mypagetab.css';
 import '../../style/buttons.css';
+import "../../style/loading.css";
 
 function FirstScreen({ user, setUser, setDisplay, message }) {
-    async function logOut() {
-        await axios
-            .get('http://localhost:3002/v1/user/logout', {
-                withCredentials: true
-            })
-            .then((res) => res.data);
+    const [loading, setLoading] = useState(false);
 
-        setUser(null);
+    async function logOut() {
+        setLoading(true);
+
+        setTimeout(async () => {
+            await axios
+                .get('http://localhost:3002/v1/user/logout', {
+                    withCredentials: true
+                })
+                .then((res) => res.data);
+
+            setUser(null);
+        }, 1000);
     }
 
     return (
@@ -22,6 +29,12 @@ function FirstScreen({ user, setUser, setDisplay, message }) {
                 alt="logo"
                 className="my-page-logo"
             />
+
+            {loading &&
+                <div className="spinner-container">
+                    <div className="loading-spinner"></div>
+                </div>
+            }
 
             <div className='info-container'>
                 <table>

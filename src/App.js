@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import "../src/style/loading.css";
 import Navigation from './tabnavigation/navigation.js';
 import Index from './login/index.js';
@@ -17,11 +18,14 @@ function App({ test }) {
                     })
                     .then((res) => res.data);
 
-                if (!usr) {
+                const usr2 = Cookies.get('github-jwt');
+
+                if (!usr && !usr2) {
                     setUser(null);
                     return;
                 }
-                const fullUser = await userModel.getUser(usr.id || usr._id);
+
+                const fullUser = await userModel.getUser(usr.id || usr._id || usr2._id);
 
                 setUser(fullUser);
             }

@@ -25,10 +25,11 @@ function InfoWindow({ user, selectedBike, setSelectedBike, StartTrip }) {
                             setErrorMessage("Du har redan en pågående resa");
                             return;
                         }
-                        if (user.balance < 50) {
+                        if (!user.balance || user.balance < 50) {
                             setErrorMessage(
                                 "Du måste ha minst 50kr på ditt konto för att påbörja en resa."
                             );
+                            console.log("oops");
                             return;
                         }
                         StartTrip();

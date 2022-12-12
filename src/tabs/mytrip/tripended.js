@@ -14,8 +14,10 @@ function TripEnded({ tripInfo }) {
 
             <div className='trip-container'>
                 <div style={{textAlign: 'center'}}><h1>Resa avslutad</h1></div>
-                <p><b>Tid:</b> {tripInfo.duration.minutes}m {tripInfo.duration.seconds}s</p>
-                <p><b>Sträcka: </b></p>
+                <p>
+                    <b>Tid: </b>
+                    {tripInfo.duration.minutes} minuter {tripInfo.duration.seconds} sekunder
+                </p>
                 <p><b>Kostnad:</b> {tripInfo.cost} kr</p>
 
             </div>

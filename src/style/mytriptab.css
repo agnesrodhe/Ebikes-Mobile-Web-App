@@ -20,7 +20,7 @@
 }
 
 .trip-container {
-    width: 300px;
+    width: 350px;
     margin-inline: auto;
     text-align: left;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
@@ -32,6 +32,11 @@
 .trip-container p {
     font-size: 20px;
     margin: 0;
+}
+
+.showtrip-buttons {
+    width: 100%;
+    text-align: center;
 }
 
 .red-button {

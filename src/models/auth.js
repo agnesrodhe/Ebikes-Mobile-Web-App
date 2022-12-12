@@ -4,11 +4,13 @@ const baseURL = "http://localhost:3002";
 
 const authModel = {
     signIn: async function signIn(user) {
+        // withCredentials
         const result = fetch(`${baseURL}/v1/user/signin`, {
             method: 'POST',
             headers: {
                 "Content-type": "application/json"
             },
+            credentials: 'include',
             body: JSON.stringify(user),
         })
             .then((response) => response.json())

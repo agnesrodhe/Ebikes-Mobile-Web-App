@@ -90,38 +90,43 @@ function ShowTrip({ user, setUser, setOnGoingTrip, setShowReciept, setTripInfo }
                 <div className='trip-container'>
                     {!confirmEndTrip ?
                         <>
-                            <p><b>Tid: </b>{minutes}min {seconds}s</p>
-                            <p><b>Sträcka: </b></p>
+                            <p><b>Tid: </b>{minutes} min {seconds} sekunder</p>
                             <p><b>Preliminär kostnad: </b>{preliminaryCost}kr</p>
 
-                            {!showMap && <>
-                                <button className='main-button' onClick={() => setShowMap(true)}>
-                                    <h4>Se på karta</h4>
-                                </button></>
-                            }
+                            <div className='showtrip-buttons'>
+                                {!showMap && <>
+                                    <button className='main-button'
+                                        onClick={() => setShowMap(true)}
+                                    >
+                                        <h4>Se på karta</h4>
+                                    </button></>
+                                }
 
-                            <button className='main-button red-button'
-                                onClick={() => setConfirmEndTrip(true)}>
-                                <h4>Avsluta resa</h4>
-                            </button>
+                                <button className='main-button red-button'
+                                    onClick={() => setConfirmEndTrip(true)}>
+                                    <h4>Avsluta resa</h4>
+                                </button>
+                            </div>
                         </>
 
                         :
 
                         <>
-                            <div><p>Vill du avsluta resan?</p></div>
+                            <div className='showtrip-buttons'>
+                                <p>Vill du avsluta resan?</p>
 
-                            <button className='main-button'
-                                onClick={() => EndTrip()}
-                            >
-                                <h4>Ja</h4>
-                            </button>
+                                <button className='main-button'
+                                    onClick={() => EndTrip()}
+                                >
+                                    <h4>Ja</h4>
+                                </button>
 
-                            <button className='main-button'
-                                onClick={() => setConfirmEndTrip(false)}
-                            >
-                                <h4>Nej</h4>
-                            </button>
+                                <button className='main-button'
+                                    onClick={() => setConfirmEndTrip(false)}
+                                >
+                                    <h4>Nej</h4>
+                                </button>
+                            </div>
                         </>
                     }
                 </div>
