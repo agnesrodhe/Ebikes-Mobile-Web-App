@@ -25,7 +25,7 @@ function Balance({ setDisplay, user, setUser, setMessage }) {
         let balance;
 
         if (user.balance) {
-            balance = parseInt(user.balance) + moneyInput;
+            balance = parseFloat(user.balance) + moneyInput;
         } else {
             balance = moneyInput;
         }
@@ -124,16 +124,16 @@ function Balance({ setDisplay, user, setUser, setMessage }) {
                 <div className='money-action-buttons-container'>
                     <button
                         className='money-action-button'
-                        onClick={() => insertMoney()}>
-                        <h4>Sätt in</h4>
-                    </button>
-
-                    <button
-                        className='money-action-button'
                         onClick={() => {
                             setDisplay("firstscreen");
                         }}>
                         <h4>Avbryt</h4>
+                    </button>
+
+                    <button
+                        className='money-action-button'
+                        onClick={() => insertMoney()}>
+                        <h4>Sätt in</h4>
                     </button>
                 </div>
             </div>
