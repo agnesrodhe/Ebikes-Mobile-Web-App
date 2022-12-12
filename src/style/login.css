@@ -33,6 +33,10 @@
     margin-inline: auto;
 }
 
+.github-container {
+    text-decoration: none;
+}
+
 .github-button {
     width: 250px;
     height: 50px;
