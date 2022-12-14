@@ -62,7 +62,7 @@ function Login({ setDisplay, setUser }) {
                 type="text"
                 value={username}
                 onChange={(event) => setUsername(event.target.value)}
-                required /><br></br>
+                required />
 
             <div>Lösenord</div>
             <input
