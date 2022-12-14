@@ -77,7 +77,7 @@
 }
 
 .page-container {
-    width: 400px;
+    min-width: 350px;
     max-height: 630px;
     margin-inline: auto;
     text-align: left;
@@ -87,7 +87,7 @@
 }
 
 .history-container {
-    width: 400px;
+    min-width: 350px;
     max-height: 500px;
     margin-inline: auto;
     padding: 25px;
