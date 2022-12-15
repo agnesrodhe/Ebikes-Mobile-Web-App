@@ -63,21 +63,21 @@ function Register({ setDisplay, setNewUserCreated }) {
                 type="text"
                 value={firstName}
                 onChange={(event) => {setFirstName(event.target.value);}}
-                required /><br></br>
+                required />
 
             <div>Efternamn</div>
             <input
                 type="text"
                 value={lastName}
                 onChange={(event) => {setLastName(event.target.value);}}
-                required /><br></br>
+                required />
 
             <div>Användarnamn</div>
             <input
                 type="text"
                 value={username}
                 onChange={(event) => {setUsername(event.target.value);}}
-                required /><br></br>
+                required />
 
             <div>Lösenord</div>
             <input

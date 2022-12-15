@@ -72,12 +72,10 @@ function Map({ coordinates, user, setTab, city }) {
     }
 
     async function StartTrip() {
-        const userId = localStorage.getItem('userId');
-
-        await bikesModel.updateBike(selectedBike._id, {active: userId});
+        await bikesModel.updateBike(selectedBike._id, {active: user._id});
 
         const newTrip = {
-            userId: userId,
+            userId: user._id,
             bikeId: selectedBike._id,
             startTime: new Date(),
             startPosition: selectedBike.location.coordinates,
