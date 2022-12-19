@@ -26,8 +26,6 @@ function Login({ setDisplay, setUser }) {
 
         const login = await authModel.signIn(user);
 
-        console.log(login);
-
         if (login.error === "No customer found") {
             setTimeout(() => {
                 setLoading(false);
@@ -41,17 +39,11 @@ function Login({ setDisplay, setUser }) {
         setTimeout(() => {
             setUser(fullUser);
         }, 1000);
-
-        console.log(fullUser);
     }
 
     return (
         <div className="login-field">
-            <button className="back-button" onClick={() => setDisplay("start")}>
-                <p>Tillbaka</p>
-            </button>
-
-            <h2>Logga in</h2>
+            <h1>Logga in</h1>
 
             {errorMessage &&
                 <p style={{color: "red"}}>{errorMessage}</p>
@@ -77,9 +69,14 @@ function Login({ setDisplay, setUser }) {
                 </div>
             }
 
-            <button className="login-button" onClick={() => logIn()}>
-                <h4>Logga in</h4>
-            </button>
+            <div className='login-buttons-container'>
+                <button className="login-button" onClick={() => setDisplay("start")}>
+                    <h4>Tillbaka</h4>
+                </button>
+                <button className="login-button" onClick={() => logIn()}>
+                    <h4>Logga in</h4>
+                </button>
+            </div>
         </div>
 
     );
