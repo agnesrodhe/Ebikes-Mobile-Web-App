@@ -15,12 +15,6 @@ function History({ user, setDisplay }) {
             />
 
             <div className='page-container'>
-                <div style={{textAlign: 'left'}}>
-                    <button onClick={() => {
-                        setDisplay("firstscreen");
-                    }} className='back-button'>Tillbaka</button>
-                </div>
-
                 <div className="history-title"><h1>Resehistorik</h1></div>
 
                 <div className='history-container'>
@@ -33,28 +27,28 @@ function History({ user, setDisplay }) {
                                 </tr>
                                 <tr>
                                     <th>Datum</th>
-                                    <td>{new Date(trip.startTime).toDateString()}</td>
+                                    <td>{new Date(trip.starttime).toDateString()}</td>
                                 </tr>
                                 <tr>
                                     <th>Starttid</th>
                                     <td>
-                                        {new Date(trip.startTime).getHours() < 10 && "0"}
-                                        {new Date(trip.startTime).getHours()}:
-                                        {new Date(trip.startTime).getMinutes() < 10 && "0"}
-                                        {new Date(trip.startTime).getMinutes()}:
-                                        {new Date(trip.startTime).getSeconds() < 10 && "0"}
-                                        {new Date(trip.startTime).getSeconds()}
+                                        {new Date(trip.starttime).getHours() < 10 && "0"}
+                                        {new Date(trip.starttime).getHours()}:
+                                        {new Date(trip.starttime).getMinutes() < 10 && "0"}
+                                        {new Date(trip.starttime).getMinutes()}:
+                                        {new Date(trip.starttime).getSeconds() < 10 && "0"}
+                                        {new Date(trip.starttime).getSeconds()}
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>Stoptid</th>
                                     <td>
-                                        {new Date(trip.stopTime).getHours() < 10 && "0"}
-                                        {new Date(trip.stopTime).getHours()}:
-                                        {new Date(trip.stopTime).getMinutes() < 10 && "0"}
-                                        {new Date(trip.stopTime).getMinutes()}:
-                                        {new Date(trip.stopTime).getSeconds() < 10 && "0"}
-                                        {new Date(trip.stopTime).getSeconds()}
+                                        {new Date(trip.stoptime).getHours() < 10 && "0"}
+                                        {new Date(trip.stoptime).getHours()}:
+                                        {new Date(trip.stoptime).getMinutes() < 10 && "0"}
+                                        {new Date(trip.stoptime).getMinutes()}:
+                                        {new Date(trip.stoptime).getSeconds() < 10 && "0"}
+                                        {new Date(trip.stoptime).getSeconds()}
                                     </td>
                                 </tr>
                                 <tr>
@@ -62,16 +56,38 @@ function History({ user, setDisplay }) {
                                     <td>{trip.duration.minutes}m {trip.duration.seconds}s</td>
                                 </tr>
                                 <tr>
-                                    <th>Kostnad</th>
-                                    <td>{trip.cost} kr</td>
+                                    <th>Startavgift</th>
+                                    <td>{trip.cost.startfee} kr</td>
+                                </tr>
+                                <tr>
+                                    <th>Rörlig kostnad</th>
+                                    <td>{trip.cost.minutecost} kr</td>
+                                </tr>
+                                <tr>
+                                    <th>Parkeringsavgift</th>
+                                    <td>{trip.cost.penaltyfee} kr</td>
+                                </tr>
+                                <tr>
+                                    <th>Bonus</th>
+                                    <td>{trip.cost.bonus} kr</td>
+                                </tr>
+                                <tr className='sum-row'>
+                                    <th>Summa</th>
+                                    <td><b>{trip.cost.totalcost} kr</b></td>
                                 </tr>
                             </tbody>
                         </table>;
                     })}
                 </div>
+
+                <div style={{textAlign: 'center'}}>
+                    <button onClick={() => {
+                        setDisplay("firstscreen");
+                    }} className='main-button-green'
+                    style={{marginBottom: '50px'}}><h4>Tillbaka</h4></button>
+                </div>
             </div>
 
-            <div></div>
             <div></div>
         </div>
     );
