@@ -1,56 +1,69 @@
 import React, { useEffect, useState } from 'react';
-//import { getDistance } from 'geolib';
+import { getDistance } from 'geolib';
 import Map from './components/map';
 import Logo from '../../assets/logo.png';
 import '../../style/mytriptab.css';
 import '../../style/buttons.css';
 import bikesModel from '../../models/bikes';
 import userModel from '../../models/user';
-//import priceModel from '../../models/prices';
 import functionsModel from './functions/functionsmodel';
 
-function ShowTrip({ user, setUser, setOnGoingTrip, setShowReciept, setTripInfo }) {
+function ShowTrip({ user, setUser, setOnGoingTrip, setShowReciept, setTripInfo, priceList }) {
     const [showMap, setShowMap] = useState(false);
     const [confirmEndTrip, setConfirmEndTrip] = useState(false);
     const [trip, setTrip] = useState({});
-    const [priceList, setPriceList] = useState({});
-    const [minutes, setMinutes] = useState('');
-    const [seconds, setSeconds] = useState('');
-    const [preliminaryCost, setPreliminaryCost] = useState('');
-    const [intervalID] = useState(
-        setInterval(() => {
-            updateTrip();
-        }, 1000)
-    );
+    const [tripParams, setTripParams] = useState(null);
+    const [intervalID] = useState(null);
 
     useEffect(() => {
-        (async () => {
-            //const prices = await priceModel.getPriceList();
-            setPriceList({
-                startFee: 10,
-                minuteTaxa: 1.50
-            });
-            const currentTrip = JSON.parse(localStorage.getItem('trip'));
+        const currentTrip = JSON.parse(localStorage.getItem('trip'));
 
-            setTrip(currentTrip);
+        (async () => {
+            if (currentTrip.userId === user._id) {
+                setTrip(currentTrip);
+            } else {
+                setOnGoingTrip(false);
+            }
         })();
-    }, []);
 
-    function updateTrip() {
-        setMinutes(functionsModel.durationTime(trip).minutes);
-        setSeconds(functionsModel.durationTime(trip).seconds);
-        setPreliminaryCost(functionsModel.cost(trip, priceList));
-    }
+        // create a interval and get the id
+        const myInterval = setInterval(() => {
+            setTripParams({
+                cost: functionsModel.endCost(currentTrip, priceList),
+                minutes: functionsModel.durationTime(currentTrip.startTime).minutes,
+                seconds: functionsModel.durationTime(currentTrip.startTime).seconds
+            });
+        }, 1000);
 
-    useEffect(() => {
-        (async () => {
-            // get bike data pushed from backend
-        });
+        // clear out the interval using the id when unmounting the component
+        return () => clearInterval(myInterval);
     }, []);
 
     async function EndTrip() {
         clearInterval(intervalID);
-        const allTripInfo = functionsModel.tripInfo(trip, priceList, user);
+
+        const bike = await bikesModel.getOneBike(trip.bikeId);
+
+        let parkedInParkingZone = false;
+
+        trip.parkingZones.forEach(zone => {
+            const distance = getDistance(
+                bike.location.coordinates,
+                {
+                    latitude: zone.location.coordinates[1],
+                    longitude: zone.location.coordinates[0]
+                }
+            );
+
+            // If bike is within 700 meters of parkingzone center
+            if (distance <= 700) {
+                parkedInParkingZone = true;
+            }
+        });
+
+        trip.stopInParkingZone = parkedInParkingZone;
+
+        const allTripInfo = functionsModel.tripInfo(trip, priceList, user._id);
         const cost = allTripInfo.cost;
         const bikeHistory = allTripInfo.bikeHistory;
         const userHistory = allTripInfo.userHistory;
@@ -62,12 +75,10 @@ function ShowTrip({ user, setUser, setOnGoingTrip, setShowReciept, setTripInfo }
 
         await userModel.updateUser(user._id, {
             history: userHistory,
-            balance: (user.balance - cost)
+            balance: (user.balance - cost).toFixed(2)
         });
 
         const updatedUser = await userModel.getUser(user._id);
-
-        console.log(allTripInfo);
 
         setUser(updatedUser);
 
@@ -90,12 +101,42 @@ function ShowTrip({ user, setUser, setOnGoingTrip, setShowReciept, setTripInfo }
                 <div className='trip-container'>
                     {!confirmEndTrip ?
                         <>
-                            <p><b>Tid: </b>{minutes} min {seconds} sekunder</p>
-                            <p><b>Preliminär kostnad: </b>{preliminaryCost}kr</p>
+                            {tripParams &&
+                            <>
+                                <table className='trip-table'>
+                                    <tbody>
+                                        <tr>
+                                            <th>Tid: </th>
+                                            <td>
+                                                {tripParams.minutes}m
+                                                {tripParams.seconds< 10 && '0'}
+                                                {tripParams === 60 ? '00':tripParams.seconds}s
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Startavgift: </th>
+                                            <td>{tripParams.cost.startFee}kr</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Rörlig avgift: </th>
+                                            <td>{tripParams.cost.minuteCost.toFixed(2)}kr</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Preliminär summa: </th>
+                                            <td><b>{tripParams.cost.totalCost.toFixed(2)}kr</b></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <p style={{fontSize: '12px', marginTop: '5px'}}>
+                                    <b>Parkeringsavgift kan tillkomma. För mer info se prislista.
+                                    </b>
+                                </p>
+                            </>
+                            }
 
                             <div className='showtrip-buttons'>
                                 {!showMap && <>
-                                    <button className='main-button'
+                                    <button className='main-button-green'
                                         onClick={() => setShowMap(true)}
                                     >
                                         <h4>Se på karta</h4>
@@ -115,13 +156,13 @@ function ShowTrip({ user, setUser, setOnGoingTrip, setShowReciept, setTripInfo }
                             <div className='showtrip-buttons'>
                                 <p>Vill du avsluta resan?</p>
 
-                                <button className='main-button'
+                                <button className='main-button-orange'
                                     onClick={() => EndTrip()}
                                 >
                                     <h4>Ja</h4>
                                 </button>
 
-                                <button className='main-button'
+                                <button className='main-button-orange'
                                     onClick={() => setConfirmEndTrip(false)}
                                 >
                                     <h4>Nej</h4>
