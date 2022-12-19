@@ -5,7 +5,7 @@ import TripEnded from './tripended';
 import '../../style/mypagetab.css';
 import '../../style/buttons.css';
 
-function MyTrip({ user, setUser }) {
+function MyTrip({ user, priceList, setUser }) {
     const [onGoingTrip, setOnGoingTrip] = useState(false);
     const [showReciept, setShowReciept] = useState(false);
     const [tripInfo, setTripInfo] = useState({});
@@ -27,6 +27,7 @@ function MyTrip({ user, setUser }) {
                     setOnGoingTrip={setOnGoingTrip}
                     setShowReciept={setShowReciept}
                     setTripInfo={setTripInfo}
+                    priceList={priceList}
                 />
             }
 
