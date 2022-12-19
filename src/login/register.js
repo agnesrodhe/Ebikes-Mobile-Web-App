@@ -47,12 +47,7 @@ function Register({ setDisplay, setNewUserCreated }) {
 
     return (
         <div className="login-field">
-
-            <button className="back-button" onClick={() => setDisplay("start")}>
-                <p>Tillbaka</p>
-            </button>
-
-            <h2>Skapa användare</h2>
+            <h1>Skapa användare</h1>
 
             {errorMessage &&
                 <p style={{color: "red"}}>{errorMessage}</p>
@@ -92,9 +87,14 @@ function Register({ setDisplay, setNewUserCreated }) {
                 </div>
             }
 
-            <button className="login-button" onClick={() => Register()}>
-                <h4>Skapa</h4>
-            </button>
+            <div className='login-buttons-container'>
+                <button className="login-button" onClick={() => setDisplay("start")}>
+                    <h4>Tillbaka</h4>
+                </button>
+                <button className="login-button" onClick={() => Register()}>
+                    <h4>Skapa</h4>
+                </button>
+            </div>
         </div>
 
     );
