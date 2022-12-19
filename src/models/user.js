@@ -5,7 +5,8 @@ const baseURL = "http://localhost:3002";
 const userModel = {
     getUser: async function getUser(userId) {
         const result = fetch(`${baseURL}/v1/customers/${userId}`, {
-            method: 'GET'
+            method: 'GET',
+            credentials: 'include'
         })
             .then((response) => response.json())
             .then((data) => {
@@ -23,6 +24,7 @@ const userModel = {
             headers: {
                 "Content-type": "application/json"
             },
+            credentials: 'include',
             body: JSON.stringify(body),
         })
             .then((response) => response.json())
