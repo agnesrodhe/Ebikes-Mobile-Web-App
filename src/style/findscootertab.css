@@ -10,15 +10,42 @@
 .findscooter-index-buttons-container {
     display: flex;
     flex-direction: column;
-    width: 300px;
+    width: 310px;
     margin-inline: auto;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    padding: 25px;
+    padding: 22px 22px 30px 22px;
     border-radius: 10px;
+}
+
+.findscooter-index-buttons-container h4{
+    margin: 0;
 }
 
 .findscooter-index-placeholder {
     height: 200px;
+}
+
+.pricelist-container {
+    width: 265px;
+    height: 210px;
+    text-align: left;
+}
+
+.pricelist-container p {
+    line-height: 1;
+}
+
+.price-table {
+    width: 100%;
+    text-align: left;
+}
+
+.price-row tr td{
+    text-align: right;
+}
+
+.white-background {
+    background-color: #d7efe1;
 }
 
 .logo-findscooter-index {
@@ -61,6 +88,21 @@
 .map-container-findscooter {
     width: 100%;
     height: 90%;
+}
+
+.info-window-container {
+    padding: 10px 5px 10px 0;
+    min-width: 100px;
+    max-width: 200px;
+}
+
+.info-window-text {
+    width: 100%;
+    text-align: left;
+}
+
+.info-window-text p {
+    margin: 0;
 }
 
 @media (min-width: 550px) {

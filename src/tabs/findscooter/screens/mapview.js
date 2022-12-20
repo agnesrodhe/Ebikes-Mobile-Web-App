@@ -3,14 +3,14 @@ import Map from '../components/map.js';
 import '../../../style/findscootertab.css';
 import '../../../style/buttons.css';
 
-function MapView({ user, setScreen, city, coordinates, setTab }) {
+function MapView({ user, setScreen, city, coordinates, setTab, priceList }) {
     return (
         <div className='findscooter-container'>
             <div className='header-flex'>
                 <div style={{textAlign: 'left'}}>
                     <button onClick={() => {
                         setScreen("firstscreen");
-                    }} className='back-button'>Tillbaka</button>
+                    }} className='back-button-map'>Tillbaka</button>
                 </div>
 
                 <h1>{city.name}</h1>
@@ -21,7 +21,12 @@ function MapView({ user, setScreen, city, coordinates, setTab }) {
             <p>Välj en scooter:</p>
 
             <div className='map-container-findscooter'>
-                <Map coordinates={coordinates} user={user} setTab={setTab} city={city}/>
+                <Map
+                    coordinates={coordinates}
+                    user={user}
+                    setTab={setTab}
+                    city={city}
+                    priceList={priceList}/>
             </div>
         </div>
     );

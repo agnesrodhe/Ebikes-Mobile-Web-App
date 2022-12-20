@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { MarkerF } from '@react-google-maps/api';
 import scooter from "../../../assets/scooter.png";
 import parking from "../../../assets/parking.png";
+import ParkZoneCircles from './parkzonecircles';
 import '../../../style/findscootertab.css';
 import '../../../style/buttons.css';
 
@@ -9,7 +10,7 @@ import { GoogleMap, useLoadScript, PolygonF } from '@react-google-maps/api';
 
 const containerStyle = {
     width: '100%',
-    height: '400px',
+    height: '350px',
     borderRadius: '5px'
 };
 
@@ -31,7 +32,6 @@ function Map({ trip }) {
             );
 
             source.addEventListener('ping', e => {
-                console.log(e);
                 setBike(JSON.parse(e.data));
             });
             source.addEventListener('open', function() {
@@ -90,6 +90,8 @@ function Map({ trip }) {
                         }}
                     />
                 }
+
+                <ParkZoneCircles parkingZones={trip.parkingZones} />
 
                 {trip.parkingZones.map((zone, index) => {
                     return <MarkerF

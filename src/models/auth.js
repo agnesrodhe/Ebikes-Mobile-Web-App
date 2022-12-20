@@ -30,6 +30,7 @@ const authModel = {
             headers: {
                 "Content-type": "application/json"
             },
+            credentials: 'include',
             body: JSON.stringify(user),
         })
             .then((response) => response.json())

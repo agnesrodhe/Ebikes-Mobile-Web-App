@@ -31,8 +31,22 @@
     background-color: #d7efe1;
 }
 
-.update-userinfo-container {
+.update-userinfo-buttons-container {
     text-align: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.info-container input {
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid;
+    border-color: green;
+    margin-block: 5px;
+    margin-top: 0;
+    padding: 10px;
+    background-color: #d7efe1;
 }
 
 .back-button {
@@ -42,6 +56,7 @@
 .history-title {
     text-align: center;
     margin-bottom: 10px;
+    margin-top: 20px;
 }
 
 .info-container p {
@@ -78,7 +93,7 @@
 
 .page-container {
     min-width: 350px;
-    max-height: 630px;
+    max-height: 550px;
     margin-inline: auto;
     text-align: left;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
@@ -88,7 +103,7 @@
 
 .history-container {
     min-width: 350px;
-    max-height: 500px;
+    max-height: 400px;
     margin-inline: auto;
     padding: 25px;
     overflow-y: scroll;
@@ -152,17 +167,10 @@
     justify-content: space-between;
 }
 
-.money-action-button {
-    width: 140px;
-    height: 50px;
-    margin-top:20px;
-    padding-top: 7px;
-    background-color: #d7efe1;
-    border-radius: 10px;
-    border: none;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-}
-
 .loading-spinner {
     margin-inline: auto;
+}
+
+.sum-row {
+    background-color: #c2d4c7;
 }

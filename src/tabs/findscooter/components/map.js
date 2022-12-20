@@ -3,7 +3,9 @@ import bikesModel from '../../../models/bikes.js';
 import citiesModel from '../../../models/cities.js';
 import BikeMarkers from './bikemarkers.js';
 import ParkZoneMarkers from './parkzonemarkers.js';
+import ParkZoneCircles from './parkzonecircles.js';
 import InfoWindow from './infowindow.js';
+import functionsModel from '../functions/functionsmodel.js';
 import '../../../style/findscootertab.css';
 import '../../../style/buttons.css';
 
@@ -18,7 +20,7 @@ const containerStyle = {
 
 const libraries = ["places"];
 
-function Map({ coordinates, user, setTab, city }) {
+function Map({ coordinates, user, setTab, city, priceList }) {
     const [startCoordinates] = useState(coordinates);
     const [cityZone, setCityZone] = useState("");
     const [bikes, setbikes] = useState("");
@@ -74,11 +76,14 @@ function Map({ coordinates, user, setTab, city }) {
     async function StartTrip() {
         await bikesModel.updateBike(selectedBike._id, {active: user._id});
 
+        const inParkingZone = functionsModel.getDistance(selectedBike, parkingZones);
+
         const newTrip = {
             userId: user._id,
             bikeId: selectedBike._id,
             startTime: new Date(),
             startPosition: selectedBike.location.coordinates,
+            startInParkingZone: inParkingZone,
             city: city,
             cityZone: cityZone,
             parkingZones: parkingZones
@@ -121,11 +126,15 @@ function Map({ coordinates, user, setTab, city }) {
                     {bikes && <BikeMarkers bikes={bikes} setSelectedBike={setSelectedBike} />}
 
                     {parkingZones && <ParkZoneMarkers parkingZones={parkingZones} />}
+                    {parkingZones && <ParkZoneCircles parkingZones={parkingZones} />}
 
                     {selectedBike ? <InfoWindow
                         user={user}
                         selectedBike={selectedBike}
                         setSelectedBike={setSelectedBike}
+                        parkingZones={parkingZones}
+                        priceList={priceList}
+                        setTab={setTab}
                         StartTrip={StartTrip}
                     /> : null}
                 </>

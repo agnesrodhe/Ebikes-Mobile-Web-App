@@ -46,7 +46,7 @@
 
 .map-container {
     width: 95%;
-    height: 400px;
+    height: 350px;
     margin-inline: auto;
     margin-bottom: 15px;
     border-radius: 5px;
@@ -63,4 +63,20 @@
 .header-flex * {
     width: 300px;
     height: 42px;
+}
+
+.tripended-table {
+    width: 100%;
+}
+
+.tripended-trip tr td {
+    text-align: right;
+}
+
+.trip-table {
+    width: 100%;
+}
+
+.trip-table tbody tr td{
+    text-align: right;
 }

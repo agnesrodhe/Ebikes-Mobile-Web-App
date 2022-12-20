@@ -4,10 +4,13 @@ const baseURL = "http://localhost:3002";
 
 const priceModel = {
     getPriceList: async function getPriceList() {
-        const result = fetch(`${baseURL}/v1/prices`)
+        const result = fetch(`${baseURL}/v1/prices`, {
+            method: 'GET',
+            credentials: 'include',
+        })
             .then(r => r.json())
             .then(result => {
-                return result.data;
+                return result;
             })
             .catch((error) => {
                 console.log(error);
