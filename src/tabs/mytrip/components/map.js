@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { MarkerF } from '@react-google-maps/api';
 import scooter from "../../../assets/scooter.png";
 import parking from "../../../assets/parking.png";
@@ -16,36 +16,11 @@ const containerStyle = {
 
 const libraries = ["places"];
 
-const baseURL = 'http://localhost:3002/v1/bikes/events/event/';
-
-function Map({ trip }) {
-    const [bike, setBike] = useState();
+function Map({ trip, bike }) {
     const { isLoaded, loadError } = useLoadScript({
         googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
         libraries,
     });
-
-    useEffect(() => {
-        if ('EventSource' in window) {
-            const source = new EventSource(
-                `${baseURL}${trip.city._id}/${trip.bikeId}`, {withCredentials: true}
-            );
-
-            source.addEventListener('ping', e => {
-                setBike(JSON.parse(e.data));
-            });
-            source.addEventListener('open', function() {
-                console.log("connected");
-            }, false);
-            source.addEventListener('error', function() {
-                console.log("error");
-            }, false);
-            return () => {
-                source.close();
-            };
-        }
-        // eslint-disable-next-line
-    }, [bike]);
 
     if (loadError) {
         return "Error loading maps";
