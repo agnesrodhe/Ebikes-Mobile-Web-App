@@ -8,30 +8,32 @@ import bikesModel from '../../models/bikes';
 import userModel from '../../models/user';
 import functionsModel from './functions/functionsmodel';
 
-function ShowTrip({ user, setUser, setOnGoingTrip, setShowReciept, setTripInfo, priceList }) {
-    const [showMap, setShowMap] = useState(false);
+const baseURL = 'http://localhost:3002/v1/bikes/events/event/';
+
+function ShowTrip({
+    user,
+    setUser,
+    trip,
+    setOnGoingTrip,
+    setShowReciept,
+    setTripInfo,
+    priceList
+}) {
     const [confirmEndTrip, setConfirmEndTrip] = useState(false);
-    const [trip, setTrip] = useState({});
+    const [bike, setBike] = useState();
     const [tripParams, setTripParams] = useState(null);
-    const [intervalID] = useState(null);
 
     useEffect(() => {
-        const currentTrip = JSON.parse(localStorage.getItem('trip'));
-
-        (async () => {
-            if (currentTrip.userId === user._id) {
-                setTrip(currentTrip);
-            } else {
-                setOnGoingTrip(false);
-            }
-        })();
-
         // create a interval and get the id
         const myInterval = setInterval(() => {
+            const bikeInfo = JSON.parse(localStorage.getItem('bike'));
+            const inParkingZone = functionsModel.inParkingZone(trip, bikeInfo);
+
+            trip.stopInParkingZone = inParkingZone;
             setTripParams({
-                cost: functionsModel.endCost(currentTrip, priceList),
-                minutes: functionsModel.durationTime(currentTrip.startTime).minutes,
-                seconds: functionsModel.durationTime(currentTrip.startTime).seconds
+                cost: functionsModel.endCost(trip, priceList),
+                minutes: functionsModel.durationTime(trip.startTime).minutes,
+                seconds: functionsModel.durationTime(trip.startTime).seconds
             });
         }, 1000);
 
@@ -39,9 +41,37 @@ function ShowTrip({ user, setUser, setOnGoingTrip, setShowReciept, setTripInfo, 
         return () => clearInterval(myInterval);
     }, []);
 
-    async function EndTrip() {
-        clearInterval(intervalID);
+    useEffect(() => {
+        if ('EventSource' in window) {
+            const source = new EventSource(
+                `${baseURL}${trip.city._id}/${trip.bikeId}`, {withCredentials: true}
+            );
 
+            source.addEventListener('ping', e => {
+                const jsonData = JSON.parse(e.data);
+
+                setBike(jsonData);
+                localStorage.setItem('bike', JSON.stringify(jsonData));
+                if (jsonData.status === "noBattery") {
+                    (async () => {
+                        EndTrip();
+                    })();
+                }
+            });
+            source.addEventListener('open', function() {
+                console.log("connected");
+            }, false);
+            source.addEventListener('error', function() {
+                console.log("error");
+            }, false);
+            return () => {
+                source.close();
+            };
+        }
+        // eslint-disable-next-line
+    }, [bike]);
+
+    async function EndTrip() {
         const bike = await bikesModel.getOneBike(trip.bikeId);
 
         let parkedInParkingZone = false;
@@ -55,8 +85,8 @@ function ShowTrip({ user, setUser, setOnGoingTrip, setShowReciept, setTripInfo, 
                 }
             );
 
-            // If bike is within 700 meters of parkingzone center
-            if (distance <= 700) {
+            // If bike is within 100 meters of parkingzone center
+            if (distance <= 100) {
                 parkedInParkingZone = true;
             }
         });
@@ -70,6 +100,7 @@ function ShowTrip({ user, setUser, setOnGoingTrip, setShowReciept, setTripInfo, 
 
         await bikesModel.updateBike(trip.bikeId, {
             active: null,
+            status: "working",
             history: bikeHistory
         });
 
@@ -83,6 +114,7 @@ function ShowTrip({ user, setUser, setOnGoingTrip, setShowReciept, setTripInfo, 
         setUser(updatedUser);
 
         localStorage.removeItem("trip");
+        localStorage.removeItem("bike");
         setTripInfo(userHistory);
         setShowReciept(true);
         setOnGoingTrip(false);
@@ -94,7 +126,7 @@ function ShowTrip({ user, setUser, setOnGoingTrip, setShowReciept, setTripInfo, 
                 <img
                     src={Logo}
                     alt="logo"
-                    className={showMap ? "logo-smaller":"logo"} />
+                    className="logo-smaller" />
 
                 <h1>Du har en pågående resa:</h1>
 
@@ -110,39 +142,31 @@ function ShowTrip({ user, setUser, setOnGoingTrip, setShowReciept, setTripInfo, 
                                             <td>
                                                 {tripParams.minutes}m
                                                 {tripParams.seconds< 10 && '0'}
-                                                {tripParams === 60 ? '00':tripParams.seconds}s
+                                                {tripParams.seconds === 60 ?
+                                                    '00':tripParams.seconds}s
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th>Startavgift: </th>
-                                            <td>{tripParams.cost.startFee}kr</td>
+                                            <th>Batterinivå: </th>
+                                            <td>{bike && bike.batterylevel}%</td>
                                         </tr>
                                         <tr>
-                                            <th>Rörlig avgift: </th>
-                                            <td>{tripParams.cost.minuteCost.toFixed(2)}kr</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Preliminär summa: </th>
+                                            <th>Slutsumma just nu: </th>
                                             <td><b>{tripParams.cost.totalCost.toFixed(2)}kr</b></td>
                                         </tr>
                                     </tbody>
                                 </table>
                                 <p style={{fontSize: '12px', marginTop: '5px'}}>
-                                    <b>Parkeringsavgift kan tillkomma. För mer info se prislista.
+                                    <b>
+                                    Slutsumman är inklusive eventuell
+                                    parkeringsavgift och bonus. Resan avslutas
+                                    automatiskt när batterinivån understiger 10%.
                                     </b>
                                 </p>
                             </>
                             }
 
                             <div className='showtrip-buttons'>
-                                {!showMap && <>
-                                    <button className='main-button-green'
-                                        onClick={() => setShowMap(true)}
-                                    >
-                                        <h4>Se på karta</h4>
-                                    </button></>
-                                }
-
                                 <button className='main-button red-button'
                                     onClick={() => setConfirmEndTrip(true)}>
                                     <h4>Avsluta resa</h4>
@@ -172,13 +196,11 @@ function ShowTrip({ user, setUser, setOnGoingTrip, setShowReciept, setTripInfo, 
                     }
                 </div>
 
-                {showMap ?
-                    <div className='map-container'>
-                        <Map trip={trip} />
-                    </div>
-                    :
-                    <div style={{height: "100px"}}></div>
-                }
+                <div className='map-container'>
+                    <Map
+                        trip={trip}
+                        bike={bike} />
+                </div>
             </>
         </div>
     );
