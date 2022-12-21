@@ -38,7 +38,13 @@ function Map({ coordinates, user, setTab, city, priceList }) {
             const allbikesInCurrentCity = await bikesModel.getAllBikesInCity(city._id);
             const parkingZonesInCity = await citiesModel.getParkingZones(city._id);
 
-            setbikes(allbikesInCurrentCity);
+            const onlyWorkingBikes = allbikesInCurrentCity.filter(function(bike) {
+                return bike.status === "working";
+            });
+
+            console.log(onlyWorkingBikes);
+
+            setbikes(onlyWorkingBikes);
             setParkingZones(parkingZonesInCity);
 
             // Set zoom level
@@ -74,7 +80,7 @@ function Map({ coordinates, user, setTab, city, priceList }) {
     }
 
     async function StartTrip() {
-        await bikesModel.updateBike(selectedBike._id, {active: user._id});
+        await bikesModel.updateBike(selectedBike._id, {active: user._id, status: 'inUse'});
 
         const inParkingZone = functionsModel.getDistance(selectedBike, parkingZones);
 
