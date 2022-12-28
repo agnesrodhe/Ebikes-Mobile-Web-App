@@ -111,13 +111,13 @@ const functionsModel = {
                 }
             );
 
-            // If bike is within 700 meters of parkingzone center
-            if (distance <= 700) {
+            // If bike is within 100 meters of parkingzone center
+            if (distance <= 100) {
                 parkedInParkingZone = true;
             }
         });
 
-        console.log(parkedInParkingZone);
+        return parkedInParkingZone;
     }
 };
 

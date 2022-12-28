@@ -9,12 +9,14 @@ function MyTrip({ user, priceList, setUser }) {
     const [onGoingTrip, setOnGoingTrip] = useState(false);
     const [showReciept, setShowReciept] = useState(false);
     const [tripInfo, setTripInfo] = useState({});
+    const [trip, setTrip] = useState({});
 
     useEffect(() => {
-        const currentTrip = localStorage.getItem('trip');
+        const currentTrip = JSON.parse(localStorage.getItem('trip'));
 
         if (currentTrip) {
             setOnGoingTrip(true);
+            setTrip(currentTrip);
         }
     }, []);
 
@@ -24,6 +26,7 @@ function MyTrip({ user, priceList, setUser }) {
                 <ShowTrip
                     user={user}
                     setUser={setUser}
+                    trip={trip}
                     setOnGoingTrip={setOnGoingTrip}
                     setShowReciept={setShowReciept}
                     setTripInfo={setTripInfo}

@@ -10,7 +10,7 @@ const options = {
     draggable: false,
     editable: false,
     visible: true,
-    radius: 700,
+    radius: 100,
     zIndex: 1
 };
 
