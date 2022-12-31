@@ -46,7 +46,7 @@ function Login({ setDisplay, setUser }) {
             <h1>Logga in</h1>
 
             {errorMessage &&
-                <p style={{color: "red"}}>{errorMessage}</p>
+                <p data-testid="error" style={{color: "red"}}>{errorMessage}</p>
             }
 
             <div>Användarnamn</div>
