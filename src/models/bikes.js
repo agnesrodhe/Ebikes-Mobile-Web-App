@@ -12,7 +12,7 @@ const bikesModel = {
                 return result;
             })
             .catch((error) => {
-                console.log(error);
+                return error;
             });
 
         return result;
@@ -26,7 +26,7 @@ const bikesModel = {
                 return result;
             })
             .catch((error) => {
-                console.log(error);
+                return error;
             });
 
         return result;
@@ -40,7 +40,7 @@ const bikesModel = {
                 return result;
             })
             .catch((error) => {
-                console.log(error);
+                return error;
             });
 
         return result;
@@ -59,7 +59,7 @@ const bikesModel = {
                 return data;
             })
             .catch((error) => {
-                console.log(error);
+                return error;
             });
 
         return result;
