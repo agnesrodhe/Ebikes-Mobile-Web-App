@@ -151,6 +151,10 @@ function ShowTrip({
                                             <td>{bike && bike.batterylevel}%</td>
                                         </tr>
                                         <tr>
+                                            <th>Hastighet: </th>
+                                            <td>{bike && bike.speed}km/h</td>
+                                        </tr>
+                                        <tr>
                                             <th>Slutsumma just nu: </th>
                                             <td><b>{tripParams.cost.totalCost.toFixed(2)}kr</b></td>
                                         </tr>
@@ -197,9 +201,11 @@ function ShowTrip({
                 </div>
 
                 <div className='map-container'>
-                    <Map
-                        trip={trip}
-                        bike={bike} />
+                    {bike &&
+                        <Map
+                            trip={trip}
+                            bike={bike} />
+                    }
                 </div>
             </>
         </div>
