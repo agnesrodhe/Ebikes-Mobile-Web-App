@@ -24,7 +24,7 @@ function Navigation({ test, user, setUser }) {
     }, []);
 
     return (
-        <div style={{ height: '100vh' }}>
+        <div data-testid="navigation" style={{ height: '100vh' }}>
             {tab === 0 && <FindScooters user={user} priceList={priceList} setTab={setTab} />}
             {tab === 1 && <MyTrip user={user} priceList={priceList} setUser={setUser} />}
             {tab === 2 && <MyPage user={user} setUser={setUser} />}
