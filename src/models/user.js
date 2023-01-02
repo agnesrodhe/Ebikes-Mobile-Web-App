@@ -13,7 +13,7 @@ const userModel = {
                 return data;
             })
             .catch((error) => {
-                console.log(error);
+                return error;
             });
 
         return result;
@@ -32,7 +32,7 @@ const userModel = {
                 return data;
             })
             .catch((error) => {
-                console.log(error);
+                return error;
             });
 
         return result;

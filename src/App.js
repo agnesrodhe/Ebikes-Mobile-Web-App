@@ -16,7 +16,10 @@ function App({ test }) {
                     .get('http://localhost:3002/v1/user/githubtoken', {
                         withCredentials: true
                     })
-                    .then((res) => res.data);
+                    .then((res) => res.data)
+                    .catch((error) => {
+                        return error;
+                    });
 
                 const usr2 = Cookies.get('github-jwt');
 
@@ -36,7 +39,7 @@ function App({ test }) {
         <>
             {user === "loading" ?
                 <div className="spinner-container-center">
-                    <div className="loading-spinner"></div>
+                    <div data-testid="loading-spinner" className="loading-spinner"></div>
                 </div>
                 :
                 <div>

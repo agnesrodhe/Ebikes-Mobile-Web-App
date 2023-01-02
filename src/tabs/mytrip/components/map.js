@@ -32,9 +32,10 @@ function Map({ trip, bike }) {
 
     return (
         <div>
+
             <GoogleMap
                 mapContainerStyle={containerStyle}
-                center={{lat: trip.startPosition[1], lng: trip.startPosition[0]}}
+                center={{lat: bike.location.coordinates[1], lng: bike.location.coordinates[0]}}
                 zoom={15}
                 options={{
                     fullscreenControl: false,
@@ -56,15 +57,13 @@ function Map({ trip, bike }) {
                     }}
                 />
 
-                {bike &&
-                    <MarkerF
-                        icon={scooter}
-                        position={{
-                            lat: bike.location.coordinates[1],
-                            lng: bike.location.coordinates[0]
-                        }}
-                    />
-                }
+                <MarkerF
+                    icon={scooter}
+                    position={{
+                        lat: bike.location.coordinates[1],
+                        lng: bike.location.coordinates[0]
+                    }}
+                />
 
                 <ParkZoneCircles parkingZones={trip.parkingZones} />
 
@@ -79,7 +78,6 @@ function Map({ trip, bike }) {
                     />;
                 })}
             </GoogleMap>
-
         </div>
     );
 }

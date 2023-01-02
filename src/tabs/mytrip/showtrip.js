@@ -4,6 +4,7 @@ import Map from './components/map';
 import Logo from '../../assets/logo.png';
 import '../../style/mytriptab.css';
 import '../../style/buttons.css';
+import '../../style/loading.css';
 import bikesModel from '../../models/bikes';
 import userModel from '../../models/user';
 import functionsModel from './functions/functionsmodel';
@@ -130,77 +131,93 @@ function ShowTrip({
 
                 <h1>Du har en pågående resa:</h1>
 
-                <div className='trip-container'>
-                    {!confirmEndTrip ?
-                        <>
-                            {tripParams &&
-                            <>
-                                <table className='trip-table'>
-                                    <tbody>
-                                        <tr>
-                                            <th>Tid: </th>
-                                            <td>
-                                                {tripParams.minutes}m
-                                                {tripParams.seconds< 10 && '0'}
-                                                {tripParams.seconds === 60 ?
-                                                    '00':tripParams.seconds}s
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th>Batterinivå: </th>
-                                            <td>{bike && bike.batterylevel}%</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Slutsumma just nu: </th>
-                                            <td><b>{tripParams.cost.totalCost.toFixed(2)}kr</b></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <p style={{fontSize: '12px', marginTop: '5px'}}>
-                                    <b>
-                                    Slutsumman är inklusive eventuell
-                                    parkeringsavgift och bonus. Resan avslutas
-                                    automatiskt när batterinivån understiger 10%.
-                                    </b>
-                                </p>
-                            </>
+                {bike ?
+                    <>
+                        <div className='trip-container'>
+                            {!confirmEndTrip ?
+                                <>
+                                    {tripParams &&
+                                    <>
+                                        <table className='trip-table'>
+                                            <tbody>
+                                                <tr>
+                                                    <th>Tid: </th>
+                                                    <td>
+                                                        {tripParams.minutes}m
+                                                        {tripParams.seconds< 10 && '0'}
+                                                        {tripParams.seconds === 60 ?
+                                                            '00':tripParams.seconds}s
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Batterinivå: </th>
+                                                    <td>{bike && bike.batterylevel}%</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Hastighet: </th>
+                                                    <td>{bike && bike.speed}km/h</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Slutsumma just nu: </th>
+                                                    <td>
+                                                        <b>
+                                                            {tripParams.cost.totalCost.toFixed(2)}kr
+                                                        </b>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <p style={{fontSize: '12px', marginTop: '5px'}}>
+                                            <b>
+                                            Slutsumman är inklusive eventuell
+                                            parkeringsavgift och bonus. Resan avslutas
+                                            automatiskt när batterinivån understiger 10%.
+                                            </b>
+                                        </p>
+                                    </>
+                                    }
+
+                                    <div className='showtrip-buttons'>
+                                        <button className='main-button red-button'
+                                            onClick={() => setConfirmEndTrip(true)}>
+                                            <h4>Avsluta resa</h4>
+                                        </button>
+                                    </div>
+                                </>
+
+                                :
+
+                                <>
+                                    <div className='showtrip-buttons'>
+                                        <p>Vill du avsluta resan?</p>
+
+                                        <button className='main-button-orange'
+                                            onClick={() => EndTrip()}
+                                        >
+                                            <h4>Ja</h4>
+                                        </button>
+
+                                        <button className='main-button-orange'
+                                            onClick={() => setConfirmEndTrip(false)}
+                                        >
+                                            <h4>Nej</h4>
+                                        </button>
+                                    </div>
+                                </>
                             }
+                        </div>
 
-                            <div className='showtrip-buttons'>
-                                <button className='main-button red-button'
-                                    onClick={() => setConfirmEndTrip(true)}>
-                                    <h4>Avsluta resa</h4>
-                                </button>
-                            </div>
-                        </>
-
-                        :
-
-                        <>
-                            <div className='showtrip-buttons'>
-                                <p>Vill du avsluta resan?</p>
-
-                                <button className='main-button-orange'
-                                    onClick={() => EndTrip()}
-                                >
-                                    <h4>Ja</h4>
-                                </button>
-
-                                <button className='main-button-orange'
-                                    onClick={() => setConfirmEndTrip(false)}
-                                >
-                                    <h4>Nej</h4>
-                                </button>
-                            </div>
-                        </>
-                    }
-                </div>
-
-                <div className='map-container'>
-                    <Map
-                        trip={trip}
-                        bike={bike} />
-                </div>
+                        <div className='map-container'>
+                            <Map
+                                trip={trip}
+                                bike={bike} />
+                        </div>
+                    </>
+                    :
+                    <div className="spinner-container">
+                        <div className="loading-spinner"></div>
+                    </div>
+                }
             </>
         </div>
     );

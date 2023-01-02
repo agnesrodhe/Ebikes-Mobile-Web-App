@@ -10,7 +10,7 @@ const citiesModel = {
             .then(r => r.json())
             .then(result => {return result;})
             .catch((error) => {
-                console.log(error);
+                return error;
             });
 
         return result;
@@ -30,7 +30,7 @@ const citiesModel = {
                 return inCity;
             })
             .catch((error) => {
-                console.log(error);
+                return error;
             });
 
         return result;

@@ -87,7 +87,8 @@ function FirstScreen({ user, setUser, setDisplay, message }) {
                                 </tr>
                                 <tr>
                                     <th>Saldo</th>
-                                    <td>{user.balance ? user.balance : "0"} kr</td>
+                                    <td>{user.balance ?
+                                        parseFloat(user.balance).toFixed(2) : "0"} kr</td>
                                 </tr>
                             </tbody>
                         </table>
