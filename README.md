@@ -28,7 +28,7 @@ https://github.com/agnesrodhe/Ebikes-Docker
 WebClient for the Webike project for the admin interface.
 ##### Github Url:
 https://github.com/agnesrodhe/EBikes-Web-Client.git
-### WebApp - Customer
+### Web Application - Customer
 Responsive WebClient/web application for customer interface.
 ##### Github Url:
 https://github.com/agnesrodhe/Ebikes-Mobile-Web-App
