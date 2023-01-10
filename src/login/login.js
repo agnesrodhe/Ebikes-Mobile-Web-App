@@ -26,8 +26,6 @@ function Login({ setDisplay, setUser }) {
 
         const login = await authModel.signIn(user);
 
-        console.log(login.error);
-
         if (!login) {
             setTimeout(() => {
                 setLoading(false);
