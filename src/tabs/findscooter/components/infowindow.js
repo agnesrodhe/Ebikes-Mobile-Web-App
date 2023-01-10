@@ -7,7 +7,7 @@ function InfoWindow({ user, selectedBike, setSelectedBike, setTab, StartTrip }) 
     const [balanceLimit, setBalanceLimit] = useState(null);
 
     useEffect(() => {
-        //setBalanceLimit(priceList.startfee + priceList.penaltyfee + 20*priceList.minutetaxa);
+        ///setBalanceLimit(priceList.startfee + priceList.penaltyfee + 20*priceList.minutetaxa);
         setBalanceLimit(50);
     }, []);
 
