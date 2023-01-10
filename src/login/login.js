@@ -26,10 +26,18 @@ function Login({ setDisplay, setUser }) {
 
         const login = await authModel.signIn(user);
 
-        if (login.error === "No customer found") {
+        if (!login) {
             setTimeout(() => {
                 setLoading(false);
-                setErrorMessage("Fel användarnamn eller lösenord");
+                setErrorMessage("Användaren finns inte");
+            }, 1000);
+            return;
+        }
+
+        if (login.error === "No customer found or wrong password") {
+            setTimeout(() => {
+                setLoading(false);
+                setErrorMessage("Felaktig information");
             }, 1000);
             return;
         }
