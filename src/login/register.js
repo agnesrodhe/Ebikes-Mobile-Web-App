@@ -29,8 +29,8 @@ function Register({ setDisplay, setNewUserCreated }) {
 
         const createUser = await authModel.signUp(newUser);
 
-        if (createUser.error) {
-            setErrorMessage("Något fick fel...");
+        if (createUser.error === "user already exists") {
+            setErrorMessage("Användaren finns redan");
             setLoading(false);
             return;
         }
