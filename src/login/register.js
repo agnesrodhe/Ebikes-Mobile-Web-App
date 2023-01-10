@@ -32,6 +32,7 @@ function Register({ setDisplay, setNewUserCreated }) {
         if (createUser.error === "user already exists") {
             setErrorMessage("Användaren finns redan");
             setLoading(false);
+
             return;
         }
 
