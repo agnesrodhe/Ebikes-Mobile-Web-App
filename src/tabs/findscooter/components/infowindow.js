@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { InfoWindowF } from '@react-google-maps/api';
 
-function InfoWindow({ user, selectedBike, setSelectedBike, priceList, setTab, StartTrip }) {
+function InfoWindow({ user, selectedBike, setSelectedBike, setTab, StartTrip }) {
     const [errorMessage, setErrorMessage] = useState('');
     const [showConfirm, setShowConfirm] = useState(false);
     const [balanceLimit, setBalanceLimit] = useState(null);
 
     useEffect(() => {
-        setBalanceLimit(priceList.startfee + priceList.penaltyfee + 20*priceList.minutetaxa);
+        ///setBalanceLimit(priceList.startfee + priceList.penaltyfee + 20*priceList.minutetaxa);
+        setBalanceLimit(50);
     }, []);
 
     useEffect(() => {
